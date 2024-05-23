@@ -1,0 +1,5 @@
+flask
+pyopenssl
+google-cloud-storage
+google-cloud-aiplatform
+google-cloud-texttospeech
