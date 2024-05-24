@@ -1,0 +1,4 @@
+google-cloud-storage
+google-cloud-aiplatform
+google-cloud-texttospeech
+functions-framework==3.*
