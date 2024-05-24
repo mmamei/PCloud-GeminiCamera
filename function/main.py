@@ -25,11 +25,11 @@ def upload(request):
     import random
     import json
     import datetime
-    #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credentials.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credentials.json'
     vertexai.init(project='geminicamera', location="europe-west8")
     model = GenerativeModel(model_name="gemini-1.0-pro-vision")
 
-    storage_client = storage.Client()#.from_service_account_json('credentials.json')
+    storage_client = storage.Client().from_service_account_json('credentials.json')
     speech_client = texttospeech.TextToSpeechClient()
     def get_description(uri):
         response = model.generate_content(
@@ -89,7 +89,6 @@ def upload(request):
     headers = {
         'Access-Control-Allow-Origin': '*'
     }
-
 
     return json.dumps([res,url], 200, headers)
 
