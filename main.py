@@ -44,7 +44,7 @@ def read_description(txt):
     )
     # The response's audio_content is binary.
     #os.remove("static/output.mp3")
-    f = f"tmp/output{random.randint(1,1000)}.mp3"
+    f = f"/tmp/output{random.randint(1,1000)}.mp3"
     with open(f, "wb") as out:
         # Write the response to the output file.
         out.write(response.audio_content)
@@ -61,7 +61,7 @@ def upload():
     uri = f'gs://upload-gemini-camera-2/image'
     res = get_description(uri)
     f = read_description(res)
-    return json.dumps([res,f'/{f}'])
+    return json.dumps([res,f'{f}'])
 
 
 if __name__ == '__main__':
