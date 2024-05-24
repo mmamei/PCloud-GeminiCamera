@@ -7,7 +7,7 @@ import os
 import random
 import json
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credentials.json'
-vertexai.init(project='plcoud2024', location="europe-west8")
+vertexai.init(project='geminicamera', location="europe-west8")
 model = GenerativeModel(model_name="gemini-1.0-pro-vision")
 
 app = Flask(__name__)
