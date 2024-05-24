@@ -6,6 +6,7 @@ from vertexai.generative_models import GenerativeModel, Part
 import os
 import random
 import json
+import datetime
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credentials.json'
 vertexai.init(project='geminicamera', location="europe-west8")
 model = GenerativeModel(model_name="gemini-1.0-pro-vision")
@@ -44,11 +45,22 @@ def read_description(txt):
     )
     # The response's audio_content is binary.
     #os.remove("static/output.mp3")
-    f = f"/tmp/output{random.randint(1,1000)}.mp3"
-    with open(f, "wb") as out:
+    name = f"output{random.randint(1,1000)}.mp3"
+    #f = f"/tmp/{name}"
+    #with open(f, "wb") as out:
         # Write the response to the output file.
-        out.write(response.audio_content)
-    return f
+        #out.write(response.audio_content)
+
+    bucket = storage_client.bucket('upload-gemini-camera-2')
+    blob = bucket.blob(name)
+    blob.upload_from_string(response.audio_content, content_type="audio/mpeg")
+
+    serving_url = blob.generate_signed_url(
+        version="v4",
+        expiration=datetime.timedelta(minutes=15),  # This URL is valid for 15 minutes
+        method="GET")  # Allow GET requests using this URL.
+    print(serving_url)
+    return serving_url
 
 @app.route('/upload',methods=['POST'])
 def upload():
@@ -60,8 +72,8 @@ def upload():
 
     uri = f'gs://upload-gemini-camera-2/image'
     res = get_description(uri)
-    f = read_description(res)
-    return json.dumps([res,f'{f}'])
+    url = read_description(res)
+    return json.dumps([res,url])
 
 
 if __name__ == '__main__':
