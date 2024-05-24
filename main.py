@@ -6,7 +6,7 @@ from vertexai.generative_models import GenerativeModel, Part
 import os
 import random
 import json
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/home/marco_mamei/PCloud-GeminiCamera/credentials.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credentials.json'
 vertexai.init(project='geminicamera', location="europe-west8")
 model = GenerativeModel(model_name="gemini-1.0-pro-vision")
 
@@ -44,7 +44,7 @@ def read_description(txt):
     )
     # The response's audio_content is binary.
     #os.remove("static/output.mp3")
-    f = f"static/output{random.randint(1,1000)}.mp3"
+    f = f"tmp/output{random.randint(1,1000)}.mp3"
     with open(f, "wb") as out:
         # Write the response to the output file.
         out.write(response.audio_content)
