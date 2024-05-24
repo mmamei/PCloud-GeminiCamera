@@ -54,11 +54,11 @@ def read_description(txt):
 def upload():
     # check if the post request has the file part
     file = request.files['file']
-    bucket = storage_client.bucket('upload-gemini-camera')
+    bucket = storage_client.bucket('upload-gemini-camera-2')
     blob = bucket.blob('image')
     blob.upload_from_string(file.read(), content_type=file.content_type)
 
-    uri = f'gs://upload-gemini-camera/image'
+    uri = f'gs://upload-gemini-camera-2/image'
     res = get_description(uri)
     f = read_description(res)
     return json.dumps([res,f'/{f}'])
