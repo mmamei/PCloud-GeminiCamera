@@ -90,5 +90,5 @@ def upload(request):
         'Access-Control-Allow-Origin': '*'
     }
 
-    return json.dumps([res,url], 200, headers)
+    return json.dumps([res,url]), 200, headers
 
